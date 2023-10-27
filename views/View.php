@@ -1,6 +1,6 @@
 <?php
 
-    public class View{
+    class View{
 
         private string $fichier;
 

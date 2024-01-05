@@ -90,7 +90,18 @@ header{
 
 
 .iut-link{
-    width: 60px;
+    width: 90px;
     margin-right: 10px;
+}
+
+.option-icon{
+    color: darkblue;
+    font-size: 20px;
+    transition: transform 0.1s ease-in-out;
+    padding: 7px;
+}
+
+.option-icon:hover{
+    transform: scale(1.1);
 }
 

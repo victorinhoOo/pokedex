@@ -7,7 +7,6 @@
         private string $titre;
 
         public function __construct(string $action) {
-            // Détermination du nom du fichier vue à partir de l'action
             $this->fichier = "views/vue" . $action . ".php";
             $this->titre = $action;
         }

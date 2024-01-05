@@ -11,10 +11,12 @@
 
 <body>
     <header>
-        <!-- Menu -->
         <nav class="menu">
-            <a href="#" class="menu-item">Accueil</a>
-            <a href="#" class="menu-item">Pokémon</a>
+            <a href="https://iutdijon.u-bourgogne.fr/www/" class="menu-item"><img src="https://iutdijon.u-bourgogne.fr/www/wp-content/uploads/2023/07/IMAG_changement_logo_rentree_2023.jpg" class="iut-link"></a>
+            <a href="index.php" class="menu-item">Accueil</a>
+            <a href="index.php?action=add-pokemon" class="menu-item">Ajouter un pokémon</a>
+            <a href="index.php?action=add-pokemon-type" class="menu-item">Ajouter un type</a>
+            <a href="index.php?action=search" class="menu-item">Rechercher</a>
         </nav>
     </header>
     <!-- #contenu -->

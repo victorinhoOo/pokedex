@@ -1,0 +1,1 @@
+<p>Vue addPokemon</p>

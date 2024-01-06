@@ -4,7 +4,13 @@
     <h1 class="TitrePages">Ajouter un Pokémon</h1>
 <?php endif; ?>
 
-<form action="index.php?action=<?= !empty($pokemonToEdit) ? 'edit-pokemon' : 'add-pokemon' ?>" method="post">
+<?php
+    if (isset($message)) {
+        echo '<p class="error-message">' . $message . '</p>';
+    }
+?>
+
+<form action="index.php?action=add-pokemon" method="post">
     <div class="form-group">
         <label for="nomEspece">Nom de l'espèce :</label>
         <input type="text" id="nomEspece" name="nomEspece" required value="<?= !empty($pokemonToEdit) ? htmlspecialchars($pokemonToEdit->getNomEspece()) : '' ?>">

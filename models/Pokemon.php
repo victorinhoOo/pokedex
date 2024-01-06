@@ -1,12 +1,12 @@
 <?php
 
 class Pokemon {
-    private $idPokemon;
-    private $nomEspece;
-    private $description;
-    private $typeOne;
-    private $typeTwo;
-    private $urlImg;
+    private int $idPokemon;
+    private string $nomEspece;
+    private string $description;
+    private string $typeOne;
+    private string $typeTwo;
+    private string $urlImg;
 
     public function __construct($idPokemon, $nomEspece, $description, $typeOne, $typeTwo, $urlImg) {
         $this->idPokemon = $idPokemon;
@@ -63,6 +63,32 @@ class Pokemon {
 
     public function setUrlImg($urlImg) {
         $this->urlImg = $urlImg;
+    }
+
+    public function hydrate(array $data): void {
+        if (isset($data['idPokemon'])) {
+            $this->SetIdPokemon($data['idPokemon']);
+        }
+
+        if (isset($data['nomEspece'])) {
+            $this->setNomEspece($data['nomEspece']);
+        }
+
+        if (isset($data['description'])) {
+            $this->SetDescription($data['description']);
+        }
+
+        if (isset($data['typeOne'])) {
+            $this->SetTypeOne($data['typeOne']);
+        }
+
+        if (isset($data['typeTwo'])) {
+            $this->SetTypeTwo($data['typeTwo']);
+        }
+
+        if (isset($data['urlImg'])) {
+            $this->SetUrlImg($data['urlImg']);
+        }
     }
     
 }

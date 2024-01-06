@@ -2,6 +2,13 @@
     <?= $nomDresseur ?>
 </h1>
 
+<?php 
+    if (!empty($message))
+    {
+        echo '<h3 class="message">' . $message . '</h3>';
+    }  
+?>
+
 <table class="pokemon-table">
     <thead>
         <tr>

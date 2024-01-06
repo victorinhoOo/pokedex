@@ -31,7 +31,24 @@ class RouteAddPokemon extends Route
      */
     protected function post($params = [])
     {
-        
+        try
+        {
+            $data = 
+            [
+                "nomEspece" => parent::getParam($params, "nomEspece", false),
+                "description" => parent::getParam($params, "description", false),
+                "typeOne" => parent::getParam($params, "typeOne", false),
+                "typeTwo" => parent::getParam($params, "typeTwo", false),
+                "urlImg" => parent::getParam($params, "urlImg", false),
+            ];
+    
+            // ajouter le Pokémon à la bdd
+            $this->controller->addPokemon($data);
+        }
+        catch (Exception $exception)
+        {
+            $this->controller->displayAddPokemon($exception);
+        }
     }
 }
 ?>

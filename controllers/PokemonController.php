@@ -54,11 +54,30 @@ class PokemonController{
     
         $donnees = [
             'nomDresseur' => "Victor",
-            'allPokemons' => $allPokemonsFromDB, // Utilisez plutôt les Pokémon récupérés depuis la base de données
-            'message' => $message // Utilisez le message de succès ou d'erreur
+            'allPokemons' => $allPokemonsFromDB, 
+            'message' => $message 
         ];
     
         $controller->Index($donnees);
+    }
+
+    // Essaye de supprimer le pokemon et affiche l'index avec le message de succes
+    public function deletePokemonAndIndex(int $idPokemon){
+        $manager = new PokemonManager();
+        $message = "Le Pokémon ". $idPokemon. " n'existe pas ou à déjà été supprimé";
+
+        //si l'id pokemon existe
+        if (!empty($idPokemon))
+        {
+            //on supprime le pokemon via le manager et récupere le nombre de lignes affectées
+            $rowCount = $manager->deletePokemon($idPokemon);
+            if ($rowCount > 0)
+            {
+                $message = "Pokémon supprimé avec succès !";
+            }
+        }
+        //appel l'index du main controller en passant le message
+        $this->mainController->Index($message);
     }
 }
 

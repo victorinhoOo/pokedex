@@ -41,9 +41,9 @@
                 </td>
                 <td class="table-data"><img class="image" src=<?= $pokemon->getUrlImg() ?>></img></td>
                 <td class="table-data">
-                    <a href="index.php?action=updatePokemon&idPokemon=<?= $pokemon->getIdPokemon(); ?>"><i
+                    <a href="index.php?action=update-pokemon&idPokemon=<?= $pokemon->getIdPokemon(); ?>"><i
                             class="fas fa-pencil-alt option-icon"></i></a>
-                    <a href="index.php?action=deletePokemon&idPokemon=<?= $pokemon->getIdPokemon(); ?>"><i
+                    <a href="index.php?action=delete-pokemon&idPokemon=<?= $pokemon->getIdPokemon(); ?>"><i
                             class="fas fa-trash option-icon"></i></a>
                 </td>
             </tr>

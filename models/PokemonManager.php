@@ -63,7 +63,7 @@ class PokemonManager extends Model
 
 
     // Supprime un pokémon dans la base de données
-    public function deletePokemon(int $idPokemon): int {
+    public function deletePokemon(int $idPokemon = -1): int {
         $sql = "DELETE FROM pokemon WHERE idPokemon = :id";
         $stmt = $this->execRequest($sql, [':id' => $idPokemon]);
         return $stmt->rowCount();

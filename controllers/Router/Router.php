@@ -8,6 +8,7 @@ require_once("controllers/Router/Route/RouteIndex.php");
 require_once("controllers/Router/Route/RouteAddPokemon.php");
 require_once("controllers/Router/Route/RouteAddType.php");
 require_once("controllers/Router/Route/RouteSearch.php");
+require_once("controllers/Router/Route/RouteDelPokemon.php");
 
     // Responsable de la gestion des routes et du routage des requêtes HTTP.
     class Router
@@ -41,6 +42,7 @@ require_once("controllers/Router/Route/RouteSearch.php");
                 'add-pokemon' => new RouteAddPokemon($this->controllerList["pokemonControll"]),
                 'add-type' => new RouteAddType($this->controllerList["pokemonControll"]),
                 'search' => new RouteSearch($this->controllerList['main']),
+                'delete-pokemon' => new RouteDelPokemon($this->controllerList["pokemonControll"]),
             ];
         }
 

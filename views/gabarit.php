@@ -19,28 +19,14 @@
             <a href="index.php?action=search" class="menu-item">Rechercher</a>
         </nav>
     </header>
-    <!-- #contenu -->
-    <main id="contenu">        
-        <table class="pokemon-table">
-            <thead>
-                <tr>
-                    <th class="table-header">Id</th>
-                    <th class="table-header">Nom</th>
-                    <th class="table-header">Description</th>
-                    <th class="table-header">Type 1</th>
-                    <th class="table-header">Type 2</th>
-                    <th class="table-header">Illustration</th>
-                    <th class="table-header">Options</th>
-                </tr>
-            </thead>
-            <tbody>
-                <?= $contenu ?>
-            </tbody>
-        </table>
-    </main>
+    <main id="contenu">
+        <?= $contenu ?>
+    </main>        
+
     <footer>
         <p>TP Pokédex - Victor Duboz - Tout droits réservés</p>
     </footer>
+    
 </body>
 
 </html>

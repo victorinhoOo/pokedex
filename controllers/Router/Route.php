@@ -2,15 +2,12 @@
 
     abstract class Route
     {
-        protected $controller;
 
-        // Initialise les attributs
-        public function __construct($controller)
-        {
-            $this->controller = $controller;
+        public function __construct() {
+
         }
 
-        // Appelle la méthode voulue get ou post en fonction du paramètre method
+        // Appelle la méthode appropriée (get ou post) en fonction de la méthode HTTP spécifiée.
         public function action($params = [], $method = 'GET')
         {
             if ($method === 'GET') {
@@ -22,7 +19,15 @@
             throw new Exception("Méthode non supportée");
         }
 
-        // Recupere les parametres
+        /**
+         * Récupère un paramètre du tableau de paramètres et effectue des vérifications.
+         *
+         * @param array  $array      Le tableau de paramètres.
+         * @param string $paramName  Le nom du paramètre à récupérer.
+         * @param bool   $canBeEmpty Indique si le paramètre peut être vide (par défaut à true).
+         *
+         * @return mixed La valeur du paramètre récupéré.
+         */
         protected function getParam(array $array, string $paramName, bool $canBeEmpty = true)
         {
             if (isset($array[$paramName])) {
@@ -35,8 +40,10 @@
             }
         }
 
+        // Méthode abstraite pour gérer les requêtes HTTP GET
         abstract protected function get($params = []);
 
+        // Méthode abstraite pour gérer les requêtes HTTP POST
         abstract protected function post($params = []);
     }
 

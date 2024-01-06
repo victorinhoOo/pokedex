@@ -14,8 +14,13 @@ class PokemonController{
 
     public function displayAddPokemon()
     { 
-        $indexView = new View('AddPokemon');
-        $indexView -> generer([]);
+        $addPokeView = new View('AddPokemon');
+        $addPokeView -> generer([]);
+    }
+
+    public function displayAddType(){
+        $addTypeView = new View('AddType');
+        $addTypeView -> generer([]);
     }
 }
 

@@ -31,11 +31,17 @@
                     <?= $pokemon->getDescription() ?>
                 </td>
                 <td class="table-data">
-                    <?= ucfirst($pokemon->getTypeOne()) ?>
+                    <img class="type" src="<?= $pokemon->getTypeOne()?->getUrlImg() ?>"> 
                 </td>
+
                 <td class="table-data">
-                    <?= $pokemon->getTypeTwo() ? ucfirst($pokemon->getTypeTwo()) : 'Aucun' ?>
+                    <?php if ($pokemon->getTypeTwo()) : ?>
+                        <img class="type" src="<?= $pokemon->getTypeTwo()?->getUrlImg() ?>">
+                    <?php else : ?>
+                        Aucun
+                    <?php endif; ?>
                 </td>
+
                 <td class="table-data"><img class="image" src=<?= $pokemon->getUrlImg() ?>></img></td>
                 <td class="table-data">
                     <a href="index.php?action=update-pokemon&idPokemon=<?= $pokemon->getIdPokemon(); ?>"><i

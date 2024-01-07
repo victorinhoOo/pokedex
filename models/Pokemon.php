@@ -1,20 +1,23 @@
 <?php
+require_once('PkmnType.php');
+require_once('PkmnTypeManager.php');
 
 // Gère les attributs d'un Pokémon
 class Pokemon {
     private int $idPokemon;
     private string $nomEspece;
     private string $description;
-    private int $typeOne;
-    private ?int $typeTwo;
+    private ?PkmnType $typeOne;
+    private ?PkmnType $typeTwo;
     private string $urlImg;
+
 
     public function __construct($idPokemon, $nomEspece, $description, $typeOne, $typeTwo, $urlImg) {
         $this->idPokemon = $idPokemon;
         $this->nomEspece = $nomEspece;
         $this->description = $description;
-        $this->typeOne = $typeOne;
-        $this->typeTwo = $typeTwo;
+        $this->setTypeOne($typeOne);
+        $this->setTypeTwo($typeTwo);
         $this->urlImg = $urlImg;
     }
 
@@ -38,6 +41,7 @@ class Pokemon {
         return $this->typeTwo;
     }
 
+
     public function getUrlImg() {
         return $this->urlImg;
     }
@@ -54,13 +58,42 @@ class Pokemon {
         $this->description = $description;
     }
 
-    public function setTypeOne($typeOne) {
-        $this->typeOne = $typeOne;
+    private PkmnTypeManager $typeManager;
+    public function setTypeOne(PkmnType|int $typeOne): void
+    {
+        $typeManager = new PkmnTypeManager();
+
+        if ($typeOne instanceof PkmnType) { // Premier cas : le paramètres est un type 
+            $this->typeOne = $typeOne;
+        } else { // deuxième cas : le paramètre est un id supérieur à 0
+            $id = (int) $typeOne;
+            if ($id > 0) {
+                $this->typeOne = $typeManager->getByID($id); // On appelle le manager pour attribuer le type correspondant
+            } else {
+                // id incorrect
+                $this->typeOne = null;
+            }
+        }
     }
 
-    public function setTypeTwo($typeTwo) {
-        $this->typeTwo = $typeTwo;
+    public function setTypeTwo(PkmnType|int|null|string $typeTwo): void
+    {
+        $typeManager = new PkmnTypeManager();
+    
+        if ($typeTwo instanceof PkmnType) { // Premier cas : le paramètre est un type 
+            $this->typeTwo = $typeTwo;
+        } else { // deuxième cas : le paramètre est un ID supérieur à 0
+            $id = (int) $typeTwo;
+            if ($id > 0) {
+                $this->typeTwo = $typeManager->getByID($id); // Utilisation de la flèche "->" pour appeler la méthode
+            } else {
+                // ID incorrect ou null
+                $this->typeTwo = null;
+            }
+        }
     }
+    
+    
 
     public function setUrlImg($urlImg) {
         $this->urlImg = $urlImg;

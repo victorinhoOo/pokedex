@@ -57,7 +57,7 @@ class PokemonManager extends Model
         $urlImg = $pokemon->getUrlImg();
     
         $sql = "INSERT INTO pokemon (nomEspece, description, typeOne, typeTwo, urlImg) VALUES (:nomEspece,:description,:type1,:type2,:urlImg)";
-        $donnees = [":nomEspece" => $nomEspece, ":description" => $description, ":type1" => $type1, ":type2" => $type2, ":urlImg" => $urlImg];
+        $donnees = [":nomEspece" => $nomEspece, ":description" => $description, ":type1" => $type1->getIdType(), ":type2" => $type2->getIdType(), ":urlImg" => $urlImg];
         $stmt = $this->execRequest($sql, $donnees);
         $id = $stmt->fetch(PDO::FETCH_ASSOC);
                

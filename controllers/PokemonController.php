@@ -14,6 +14,8 @@ class PokemonController
 
     private PkmnTypeManager $typeManager;
 
+    private PkmnType $types;
+
     public function __construct()
     {
         $this->manager = new PokemonManager();
@@ -28,9 +30,12 @@ class PokemonController
      */
     public function displayAddPokemon(?string $message = null)
     {
+        $types = $this->typeManager->getAll();
         $addPokeView = new View('AddPokemon');
-        $donnees = ['message' => $message];
-        $addPokeView->generer($donnees);
+        $addPokeView->generer([
+            'message' => $message,
+            'types' => $types,
+        ]);
     }
 
     /**
@@ -137,6 +142,7 @@ class PokemonController
     public function displayEditPokemon(int $idPokemon)
     {
         $pokemon = $this->manager->getByID($idPokemon);
+        $types = $this->typeManager->getAll();
 
         if (!$pokemon) {
             $this->displayAddPokemon("ID non trouvé");
@@ -147,6 +153,7 @@ class PokemonController
         $vueEditPokemon->generer([
             'message' => null,
             'pokemon' => $pokemon,
+            'types' => $types,
         ]);
     }
 

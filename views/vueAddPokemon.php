@@ -24,12 +24,29 @@
 
     <div class="form-group">
         <label for="typeOne">Type principal :</label>
-        <input type="text" id="typeOne" name="typeOne" required value="<?= !empty($pokemon) ? htmlspecialchars($pokemon->getTypeOne()) : '' ?>">
+        <select id="typeOne" name="typeOne" required>
+            <?php
+            
+            foreach ($types as &$type)  {   
+                
+                $id = $type->getIdType();
+                $nom = $type->getNomType();
+                echo ("<option value='".$id."'>".$nom."</option>");}
+            ?> 
+        </select>
     </div>
 
     <div class="form-group">
         <label for="typeTwo">Type secondaire :</label>
-        <input type="text" id="typeTwo" name="typeTwo" value="<?= !empty($pokemon) ? htmlspecialchars($pokemon->getTypeTwo()) : '' ?>">
+        <select id="typeTwo" name="typeTwo">
+            <?php       
+            foreach ($types as &$type)  {   
+                
+                $id = $type->getIdType();
+                $nom = $type->getNomType();
+                echo ("<option value='".$id."'>".$nom."</option>");}
+            ?> 
+        </select>
     </div>
 
     <div class="form-group">

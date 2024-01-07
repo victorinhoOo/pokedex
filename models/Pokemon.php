@@ -5,8 +5,8 @@ class Pokemon {
     private int $idPokemon;
     private string $nomEspece;
     private string $description;
-    private string $typeOne;
-    private ?string $typeTwo;
+    private int $typeOne;
+    private ?int $typeTwo;
     private string $urlImg;
 
     public function __construct($idPokemon, $nomEspece, $description, $typeOne, $typeTwo, $urlImg) {

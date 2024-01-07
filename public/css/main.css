@@ -27,6 +27,39 @@
     text-align: center;
 }
 
+.menu {
+    width: 100%;
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.menu-item, .search-nav{
+    margin-left: 15px;
+    margin-right: 15px;
+    color: white;
+    text-decoration: none;
+    transition: transform 0.1s ease-in-out;
+}
+
+.menu-item:hover, .search-nav:hover{
+    cursor: pointer;
+    transform: scale(1.15);
+}
+
+.iut-link{
+    width: 90px;
+    margin-right: 10px;
+}
+
+.search-nav{
+    text-align: right;
+    margin-left: 650px;
+}
+
 .table-header {
     font-size: 20px;
     background-color: #004080;
@@ -78,32 +111,11 @@ header{
     display: flex;
     align-items: center;
     padding-left: 50px;
-}
-
-.menu{
-    display: flex;
-    align-items: center;
-}
-
-.menu-item{
-    margin-left: 15px;
-    margin-right: 15px;
-    color: white;
-    text-decoration: none;
-    transition: transform 0.1s ease-in-out;
-}
-
-.menu-item:hover{
-    cursor: pointer;
-    transform: scale(1.1);
-    text-decoration: underline;
+    padding-right: 50px;
+    justify-content: space-between;
 }
 
 
-.iut-link{
-    width: 90px;
-    margin-right: 10px;
-}
 
 .option-icon{
     color: #004080;
@@ -126,6 +138,7 @@ form {
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
     text-align: center; 
     border-radius: 10px; 
+    margin-bottom: 30px;
 }
 
 .form-group {

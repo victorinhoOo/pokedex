@@ -31,23 +31,24 @@ class RouteAddPokemon extends Route
      */
     protected function post($params = [])
     {
-        try
+        try 
         {
-            $data = 
-            [
-                "nomEspece" => parent::getParam($params, "nomEspece", false),
-                "description" => parent::getParam($params, "description", false),
-                "typeOne" => parent::getParam($params, "typeOne", false),
-                "typeTwo" => parent::getParam($params, "typeTwo", false),
-                "urlImg" => parent::getParam($params, "urlImg", false),
-            ];
-    
-            // ajouter le Pokémon à la bdd
-            $this->controller->addPokemon($data);
+            if (!empty($params))
+            {
+                $data = [
+                    "nomEspece" => parent::getParam($params, "nomEspece", false),
+                    "description" => parent::getParam($params, "description"),
+                    "typeOne" => parent::getParam($params, "typeOne", false),
+                    "typeTwo" => (parent::getParam($params, "typeTwo") !== "null") ? parent::getParam($params, "typeTwo") : null,
+                    "urlImg" => parent::getParam($params, "urlImg", false)
+                ];
+                $this->controller->addPokemon($data);
+            }
         }
-        catch (Exception $exception)
+        // Si des informations manquent, affiche la page AddPokemon avec un message d'erreur.
+        catch(Exception $e)
         {
-            $this->controller->displayAddPokemon($exception);
+            $this->controller->displayAddPokemon("Informations du Pokémon incomplètes, échec de l'ajout");
         }
     }
 }

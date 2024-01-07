@@ -1,5 +1,6 @@
 <?php
 
+    // Définit une structure de base pour gérer les routes et les actions associées
     abstract class Route
     {
 

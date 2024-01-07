@@ -1,84 +1,151 @@
 <?php
-
 require_once("views/View.php");
-require_once ("models/PokemonManager.php");
+require_once("models/PokemonManager.php");
 
-class PokemonController{
-    private PokemonManager $pokemonManager;
-    private MainController $mainController;
+/* Gère les actions liées aux Pokémon dans l'application.
+ * permet d'afficher, d'ajouter, de modifier et de supprimer des Pokémon.
+ */
+class PokemonController
+{
+    private PokemonManager $manager;
+    private MainController $controller;
 
-    public function __construct() {
-        $this->pokemonManager = new PokemonManager();
-        $this->mainController = new MainController();
+    public function __construct()
+    {
+        $this->manager = new PokemonManager();
+        $this->controller = new MainController();
     }
 
+    /**
+     * Affiche la page d'ajout de Pokémon
+     *
+     * @param string|null $message Message à afficher
+     */
     public function displayAddPokemon(?string $message = null)
-    { 
+    {
         $addPokeView = new View('AddPokemon');
-        $donnees = ['message'=> $message];
-        $addPokeView -> generer($donnees);
+        $donnees = ['message' => $message];
+        $addPokeView->generer($donnees);
     }
 
-    public function displayAddType(){
+    /**
+     * Affiche la page d'ajout de type de Pokémon.
+     */
+    public function displayAddType()
+    {
         $addTypeView = new View('AddType');
-        $addTypeView -> generer([]);
+        $addTypeView->generer([]);
     }
 
-    // créé un pokemon puis affiche la page d'accueil
+    /**
+     * Crée un Pokémon à partir des données fournies, l'ajoute à la base de données,
+     * puis affiche la page d'accueil avec un message.
+     *
+     * @param array $infoPokemon Les données du Pokémon à ajouter
+     */
     public function addPokemon(array $infoPokemon)
     {
-        $manager = new PokemonManager();
-        $controller = new MainController();
-    
-        // Créez un objet Pokémon avec les données du tableau $infoPokemon
-        $pokemon = new Pokemon(
-            -10,
-            $infoPokemon['nomEspece'],
-            $infoPokemon['description'],
-            $infoPokemon['typeOne'],
-            $infoPokemon['typeTwo'],
-            $infoPokemon['urlImg']
-        );
-    
-        // Appeler la méthode createPokemon du manager pour ce Pokémon
-        $id = $manager->createPokemon($pokemon);
-    
-        if (isset($id)) {
-            $message = "Pokémon ajouté avec succès";
-        } else {
-            $message = "Le pokémon n'a pas pu être ajouté";
+        $isValid = true;
+        // Vérifie que tous les champs obligatoires sont présents
+        $requiredFields = ['nomEspece', 'description', 'typeOne', 'urlImg'];
+
+        foreach ($requiredFields as $field) {
+            if (!isset($infoPokemon[$field]) || empty($infoPokemon[$field])) {
+                // Si un champ obligatoire est manquant ou vide, on marque la validation comme non réussie
+                $isValid = false;
+                $message = "Le champ '$field' est obligatoire et ne peut pas être vide.";
+            }
         }
-    
-        // Récupération de tous les Pokémon depuis la base de données
-        $allPokemonsFromDB = $manager->getAll();
-    
-        $donnees = [
-            'nomDresseur' => "Victor",
-            'allPokemons' => $allPokemonsFromDB, 
-            'message' => $message 
-        ];
-    
-        $controller->Index($donnees);
+
+        // Si la validation des champs obligatoires a réussi :
+        if ($isValid) {
+            // On crée un objet Pokémon à partir des données fournies dans le tableau $infoPokemon.
+            $pokemon = new Pokemon(
+                -1, //valeur arbitraire
+                $infoPokemon['nomEspece'],
+                $infoPokemon['description'],
+                $infoPokemon['typeOne'],
+                $infoPokemon['typeTwo'],
+                $infoPokemon['urlImg']
+            );
+
+            // On appelle la méthode createPokemon du manager
+            $id = $this->manager->createPokemon($pokemon);
+
+            if (isset($id)) {
+                $message = "Pokémon ajouté avec succès";
+            } else {
+                $message = "Le pokémon n'a pas pu être ajouté";
+            }
+        }
+        $this->controller->Index($message);
     }
 
-    // Essaye de supprimer le pokemon et affiche l'index avec le message de succes
-    public function deletePokemonAndIndex(int $idPokemon){
-        $manager = new PokemonManager();
-        $message = "Le Pokémon ". $idPokemon. " n'existe pas ou à déjà été supprimé";
+    
 
-        //si l'id pokemon existe
-        if (!empty($idPokemon))
-        {
-            //on supprime le pokemon via le manager et récupere le nombre de lignes affectées
-            $rowCount = $manager->deletePokemon($idPokemon);
-            if ($rowCount > 0)
-            {
+    /**
+     * Tente de supprimer un Pokémon en fonction de son ID et affiche la page d'accueil
+     * avec un message de succès ou d'erreur
+     *
+     * @param int $idPokemon L'ID du Pokémon à supprimer
+     */
+    public function deletePokemonAndIndex(int $idPokemon)
+    {
+        $message = "Le Pokémon " . $idPokemon . " n'existe pas ou a déjà été supprimé";
+
+        // Si l'ID du Pokémon existe
+        if (!empty($idPokemon)) {
+            // On supprime le Pokémon via le manager et on récupère le nombre de lignes affectées
+            $rowCount = $this->manager->deletePokemon($idPokemon);
+            if ($rowCount > 0) {
                 $message = "Pokémon supprimé avec succès !";
             }
         }
-        //appel l'index du main controller en passant le message
-        $this->mainController->Index($message);
+        // Appel l'index du MainController en passant le message
+        $this->controller->Index($message);
+    }
+
+    /**
+     * Affiche la page d'édition d'un Pokémon en fonction de son ID
+     *
+     * @param int $idPokemon L'ID du Pokémon à éditer
+     */
+    public function displayEditPokemon(int $idPokemon)
+    {
+        $pokemon = $this->manager->getByID($idPokemon);
+
+        if (!$pokemon) {
+            $this->displayAddPokemon("ID non trouvé");
+            return;
+        }
+
+        $vueEditPokemon = new View('AddPokemon');
+        $vueEditPokemon->generer([
+            'message' => null,
+            'pokemon' => $pokemon,
+        ]);
+    }
+
+    /**
+     * Édite un Pokémon en fonction des données fournies, puis affiche la page d'accueil
+     * avec un message de succès ou d'erreur
+     *
+     * @param array $dataPokemon Les données du Pokémon à éditer
+     */
+    public function editPokemonAndIndex(array $dataPokemon)
+    {
+
+        $rowCount = $this->manager->editPokemonAndIndex($dataPokemon);
+
+        if ($rowCount > 0) {
+            $message = "Mise à jour réussie !";
+        } else {
+            $message = "La mise à jour a échoué.";
+        }
+
+        $this->controller->Index($message);
     }
 }
+
 
 ?>

@@ -3,10 +3,14 @@
 abstract class Model
 {
     private $db;
+
+    // Initialise la connexion à la base de données
     public function __construct(){
         $this->db = $this->getDB();
     }
 
+
+    // Obtient une instance de la base de données (connexion)
     protected function getDB()
     {
         if ($this->db === null) {
@@ -25,6 +29,7 @@ abstract class Model
         return $this->db;
     }
 
+    // Exécute une requête SQL préparée avec des paramètres.
     protected function execRequest(string $sql, array $params = null) {
         try {
             $statement = $this->db->prepare($sql);

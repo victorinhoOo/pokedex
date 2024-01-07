@@ -165,25 +165,8 @@ input[type="submit"]:hover {
     color: darkblue;
 }
 
-
-
-
-
-.comboBoxRecherche {
-    width: 100%;
-    padding: 8px;
-    margin-bottom: 12px;
-    box-sizing: border-box;
-    border: 1px solid #ccc;
-    border-radius: 3px;
-    background-color: #fff;
-    color: #333;
-    font-size: 14px;
-}
-
-/* Style pour les options du menu déroulant */
-.comboBoxRecherche option {
-    background-color: #fff;
-    color: #333;
+h3{
+    text-align: center;
+    margin-bottom: 30px;
 }
 

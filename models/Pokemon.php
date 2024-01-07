@@ -1,11 +1,12 @@
 <?php
 
+// Gère les attributs d'un Pokémon
 class Pokemon {
     private int $idPokemon;
     private string $nomEspece;
     private string $description;
     private string $typeOne;
-    private string $typeTwo;
+    private ?string $typeTwo;
     private string $urlImg;
 
     public function __construct($idPokemon, $nomEspece, $description, $typeOne, $typeTwo, $urlImg) {
@@ -65,29 +66,13 @@ class Pokemon {
         $this->urlImg = $urlImg;
     }
 
+    // Hydrate l'objet avec les données du tableau associatif
     public function hydrate(array $data): void {
-        if (isset($data['idPokemon'])) {
-            $this->SetIdPokemon($data['idPokemon']);
-        }
-
-        if (isset($data['nomEspece'])) {
-            $this->setNomEspece($data['nomEspece']);
-        }
-
-        if (isset($data['description'])) {
-            $this->SetDescription($data['description']);
-        }
-
-        if (isset($data['typeOne'])) {
-            $this->SetTypeOne($data['typeOne']);
-        }
-
-        if (isset($data['typeTwo'])) {
-            $this->SetTypeTwo($data['typeTwo']);
-        }
-
-        if (isset($data['urlImg'])) {
-            $this->SetUrlImg($data['urlImg']);
+        foreach ($data as $key => $value) {
+            $methodName = 'set' . ucfirst($key);
+            if (method_exists($this, $methodName)) {
+                $this->$methodName($value);
+            }
         }
     }
     

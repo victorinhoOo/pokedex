@@ -1,6 +1,8 @@
 <?php
 require_once("views/View.php");
 require_once("models/PokemonManager.php");
+require_once("models/PkmnTypeManager.php");
+require_once("models/PkmnType.php");
 
 /* Gère les actions liées aux Pokémon dans l'application.
  * permet d'afficher, d'ajouter, de modifier et de supprimer des Pokémon.
@@ -10,10 +12,13 @@ class PokemonController
     private PokemonManager $manager;
     private MainController $controller;
 
+    private PkmnTypeManager $typeManager;
+
     public function __construct()
     {
         $this->manager = new PokemonManager();
         $this->controller = new MainController();
+        $this->typeManager = new PkmnTypeManager();
     }
 
     /**
@@ -30,11 +35,30 @@ class PokemonController
 
     /**
      * Affiche la page d'ajout de type de Pokémon.
+     * 
+     * @param string|null $message Message à afficher
      */
-    public function displayAddType()
+    public function displayAddType(?string $message = null)
     {
         $addTypeView = new View('AddType');
-        $addTypeView->generer([]);
+        $donnees = ['message' => $message];
+        $addTypeView->generer($donnees);
+    }
+
+    /**
+     * Créé un type de Pokémon à partir des données fournies, l'ajoute à la base de données,
+     * puis affiche la page d'accueil avec un message.
+     * 
+     * @param array $infoType Les données du type de Pokémon à ajouter
+     */
+    public function addType(array $infoType){
+
+        $type = new PkmnType($infoType);
+        $this->typeManager->createPkmnType($type);
+        $message = "Le type a été ajouté avec succès";
+
+        $this->controller->Index($message);
+
     }
 
     /**
@@ -145,6 +169,8 @@ class PokemonController
 
         $this->controller->Index($message);
     }
+
+
 }
 
 

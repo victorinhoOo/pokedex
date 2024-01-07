@@ -19,6 +19,35 @@
             <a href="index.php?action=search" class="menu-item">Rechercher</a>
         </nav>
     </header>
+
+    <div class="background">
+            <span></span>
+            <span></span>
+            <span></span>
+            <span></span>
+            <span></span>
+            <span></span>
+            <span></span>
+            <span></span>
+            <span></span>
+            <span></span>
+            <span></span>
+            <span></span>
+            <span></span>
+            <span></span>
+            <span></span>
+            <span></span>
+            <span></span>
+            <span></span>
+            <span></span>
+            <span></span>
+            <span></span>
+            <span></span>
+            <span></span>
+            <span></span>
+            <span></span>
+         </div>
+
     <main id="contenu">
         <?= $contenu ?>
     </main>        

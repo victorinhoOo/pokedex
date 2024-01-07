@@ -25,7 +25,8 @@ require_once("models/PokemonManager.php");
             $donnees = [
                 'nomDresseur' => "Victor",
                 'allPokemons' => $allPokemons,
-                'message' => $message
+                'message' => $message,
+                'textMode' => false
             ];
 
             $indexView->generer($donnees);
@@ -34,15 +35,45 @@ require_once("models/PokemonManager.php");
         /**
          * Affiche la page de recherche.
          */
-        public function Search(): void
+        public function displaySearch(?string $message = null): void
         {
             $indexView = new View('Search');
 
             // Les données à transmettre à la vue
-            $donnees = [];
+            $donnees = [
+                'message' => $message
+            ];
 
             $indexView->generer($donnees);
         }
+        
+        /**
+         * Effectue la recherche depuis le manager puis affiche le résultat sur la page d'accueil
+         */
+        public function Search(string $critere, string $valeur, ?string $message = null){
+            $indexView = new View('Index');
+            $manager = new PokemonManager();
+            $typeManager = new PkmnTypeManager();
+            $textMode = false;
 
+            if($critere == "type"){ // si on recherche par type alors il faut récupérer l'id du type correspondant au nom saisi
+                $valeur = strval($typeManager->getIdType($valeur));
+                $textMode = true; // Pour afficher les types en version texte lors de la recherche
+            }
+            $result = $manager->searchPokemon($critere, $valeur);
+            
+            if ($result == null){
+                $message = "Aucun résultat";
+            }
+
+            $donnees = [
+                'nomDresseur' => "Victor",
+                'allPokemons' => $result,
+                'message' => $message,
+                'textMode' => $textMode
+            ];
+
+            $indexView->generer($donnees);
+        }
     }
 ?>

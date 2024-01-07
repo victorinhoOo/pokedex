@@ -1,26 +1,33 @@
-<h1>Rechercher un Pokémon</h1>
+<h1>Rechercher</h1>
 
-<form action="index.php" method="post">
+<?php if (isset($message)): ?>
+    <h3><?= $message ?></h3>
+<?php endif; ?>
+
+<form action="index.php?action=search" method="post">
     <div class="form-group">
-        <input type="text" id="recherche" name="recherche" placeholder="Rechercher">
+        <input type="text" id="valeur" name="valeur" placeholder="Rechercher" required>
     </div>
 
     <div class="form-group">
-        <select name="champrecherche" id="champrecherche" required>
+        <label for="critere">Champ de recherche : </label>
+        <select name="critere" id="critere" required>
+            <option value="" disabled selected>Sélectionner un champ</option>
             <?php
             $reflectionClass = new ReflectionClass('Pokemon');
             $properties = $reflectionClass->getProperties();
             foreach ($properties as $property) {
-                echo '<option value="' . $property->getName() . '">' . $property->getName() . '</option>';
+                // Exclus "typeOne", "typeTwo" et "PokemonManager" des champs affichés à la sélection
+                if ($property->getName() !== 'typeOne' && $property->getName() !== 'typeTwo' && $property->getName() !== 'typeManager' && $property->getName() !== 'urlImg') {
+                    echo '<option value="' . $property->getName() . '">' . $property->getName() . '</option>';
+                }
             }
             ?>
+            <option value="type">Type</option>
         </select>
     </div>
 
-    <input type="text" name="searchoption" value="1" hidden>
-
-
-    <input class="button" type="submit" value="valider">
-
-
+    <div class="form-group">
+        <input class="button" type="submit" value="Rechercher">
+    </div>
 </form>

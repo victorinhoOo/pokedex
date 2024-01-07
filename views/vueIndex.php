@@ -12,8 +12,8 @@
             <th class="table-header">Id</th>
             <th class="table-header">Nom</th>
             <th class="table-header">Description</th>
-            <th class="table-header">Type 1</th>
-            <th class="table-header">Type 2</th>
+            <th class="table-header">Type principal</th>
+            <th class="table-header">Type secondaire</th>
             <th class="table-header">Illustration</th>
             <th class="table-header">Options</th>
         </tr>
@@ -31,12 +31,20 @@
                     <?= $pokemon->getDescription() ?>
                 </td>
                 <td class="table-data">
-                    <img class="type" src="<?= $pokemon->getTypeOne()?->getUrlImg() ?>"> 
+                    <?php if ($textMode): ?>
+                        <?= ucfirst($pokemon->getTypeOne()->getNomType()) ?>
+                    <?php else: ?>
+                        <img class="type" src="<?= $pokemon->getTypeOne()?->getUrlImg() ?>">
+                    <?php endif; ?>
                 </td>
 
                 <td class="table-data">
                     <?php if ($pokemon->getTypeTwo()) : ?>
-                        <img class="type" src="<?= $pokemon->getTypeTwo()?->getUrlImg() ?>">
+                        <?php if ($textMode): ?>
+                            <?= ucfirst($pokemon->getTypeTwo()->getNomType()) ?>
+                        <?php else: ?>
+                            <img class="type" src="<?= $pokemon->getTypeTwo()?->getUrlImg() ?>">
+                        <?php endif; ?>
                     <?php else : ?>
                         Aucun
                     <?php endif; ?>

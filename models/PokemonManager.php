@@ -9,10 +9,10 @@ class PokemonManager extends Model
     // Récupère tous les Pokémon depuis la base de données
     public function getAll()
     {
-        $sql = 'SELECT * FROM pokemon'; 
+        $sql = 'SELECT * FROM pokemon';
         $result = $this->execRequest($sql);
-        $pokemons = [];
-        
+    
+        $allPokemons = [];
         foreach ($result as $row) {
             $allPokemons[] = new Pokemon(
                 $row['idPokemon'],
@@ -23,9 +23,10 @@ class PokemonManager extends Model
                 $row['urlImg']
             );
         }
-        
+    
         return $allPokemons;
     }
+    
 
     // Récupère un Pokémon spécifique depuis la base de données en utilisant son ID
     public function getByID(int $idPokemon)
@@ -54,6 +55,11 @@ class PokemonManager extends Model
         $description = $pokemon->getDescription();
         $type1 = $pokemon->getTypeOne();
         $type2 = $pokemon->getTypeTwo();
+        
+        if($type1 == $type2){ // si le type 1 et 2 sont égaux alors le Pokémon n'a pas de type 2
+            $type2 == null;
+        }
+
         $urlImg = $pokemon->getUrlImg();
     
         $sql = "INSERT INTO pokemon (nomEspece, description, typeOne, typeTwo, urlImg) VALUES (:nomEspece,:description,:type1,:type2,:urlImg)";
@@ -98,6 +104,55 @@ class PokemonManager extends Model
 
         return $rowCount;
     }
+
+    /**
+     * Recherche des pokémons en fonction du critère spécifié.
+     *
+     * @param string $critere Le critère de recherche (id, nomEspece, description, urlImg)
+     * @param string $valeur La valeur à rechercher
+     * @return array Un tableau des pokémons correspondant au critère et à la valeur donnés
+     */
+    public function searchPokemon(string $critere, string $valeur): array{
+        $sql = "";
+        $params = [':valeur' => $valeur];
+    
+        // Construit la requête SQL en fonction du critère
+        switch ($critere) {
+            case 'idPokemon':
+                $sql = "SELECT * FROM pokemon WHERE idPokemon = :valeur";
+                $params[':valeur'] = intval($valeur);
+                break;
+            case 'nomEspece':
+                $sql = "SELECT * FROM pokemon WHERE nomEspece LIKE :valeur";
+                $params[':valeur'] = "%".$valeur."%";
+                break;
+            case 'description':
+                $sql = "SELECT * FROM pokemon WHERE description LIKE :valeur";
+                $params[':valeur'] = "%".$valeur."%";
+                break;
+            case 'type':
+                $sql = 'SELECT * FROM pokemon WHERE typeOne = :valeur OR typeTwo = :valeur';
+                $params[':valeur'] = $valeur;
+                break;               
+        }
+    
+        $result = $this->execRequest($sql, $params);
+    
+        $allPokemons = [];
+        foreach ($result as $row) {
+            $allPokemons[] = new Pokemon(
+                $row['idPokemon'],
+                $row['nomEspece'],
+                $row['description'],
+                $row['typeOne'],
+                $row['typeTwo'],
+                $row['urlImg']
+            );
+        }
+        
+        return $allPokemons;
+    }   
+
 }
 
 

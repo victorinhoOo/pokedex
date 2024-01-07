@@ -52,6 +52,25 @@
         }
 
         /**
+         * Récupère l'ID d'un type de Pokémon en utilisant son nom.
+         *
+         * @param string $nameType Le nom du type de Pokémon à rechercher.
+         * @return int|null L'ID du type de Pokémon ou null s'il n'est pas trouvé.
+         */
+        public function getIdType(string $nameType): ?int {
+            $sql = "SELECT idType FROM pkmn_type WHERE nomType = ?";
+            $stmt = $this->execRequest($sql, [$nameType]);
+
+            if ($stmt) {
+                $idType = $stmt->fetchColumn();
+                return $idType ? (int)$idType : null;
+            }
+
+            return null;
+        }
+
+
+        /**
          * Crée un nouveau type de Pokémon dans la base de données.
          *
          * @param PkmnType $pkmnType Le type de Pokémon à ajouter.
